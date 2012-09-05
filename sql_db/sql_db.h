@@ -22,7 +22,8 @@ int get_text_by_keyword (sql_db  *sqldb,
 		                 sql_col *sqlcol,
 						 char    *colname,
 						 char    *keyword,
-						 float   *value);
+						 char    *buf,
+						 int      len);
 
 int get_int_by_keyword  (sql_db  *sqldb,
 		                 sql_col *sqlcol,

@@ -1,15 +1,16 @@
-LIBDIR=.
+LIBDIR=../lib
 INC=.
 CFLAGS=-Wall -I$(INC)
 
-all:	sql_db_test libsqldb.so
+install:	sql_db_test $(LIBDIR)/libsqldb.so
 
-install: all
+$(LIBDIR)/libsqldb.so: libsqldb.so
+		mkdir -p $(LIBDIR)
 		mv -f libsqldb.so libsqldb.so.tmp
 		mv -f libsqldb.so.tmp $(LIBDIR)/libsqldb.so
 
-sql_db_test:	sql_db.o test.o
-		gcc sql_db.o test.o -o sql_db_test -lsqlite3
+sql_db_test:	test.o $(LIBDIR)/libsqldb.so
+		gcc test.o -o sql_db_test -L $(LIBDIR) -lsqlite3 -lsqldb
 
 libsqldb.so:	sql_db.o
 		gcc -shared -Wl,-soname,libsqldb.so -o libsqldb.so sql_db.o -lc
